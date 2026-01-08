@@ -48,7 +48,7 @@ chmod -x examples/*.py
 rm -rf %{buildroot}%{_datadir}/%{name}
  
 %files -n python3-%{pypi_name}
-%doc CHANGELOG.txt README.rst examples
+%doc README.rst examples
 %license LICENSE.txt
 %{python3_sitearch}/*.egg-info
 %{python3_sitearch}/%{pypi_name}/
