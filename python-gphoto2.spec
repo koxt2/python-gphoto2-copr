@@ -54,7 +54,7 @@ rm -rf %{buildroot}%{_datadir}/%{name}
 %doc README.rst examples
  
 %changelog
-* Wed Jan 21 2026 koxt2 <koxt2@protonmail.com> - 2.6.3-1
+* Wed Jan 21 2026 koxt2 <koxt2@protonmail.com> - 2.6.3-2
 - Fix spelling error
 - Switch to pyproject macros
 
