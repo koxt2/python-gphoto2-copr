@@ -2,10 +2,9 @@
  
 Name:           python-%{pypi_name}
 Version:        2.6.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Python interface to libgphoto2
  
-# Automatically converted from old format: GPLv3+ - review is highly recommended.
 License:        GPL-3.0-or-later
 URL:            https://github.com/jim-easterbrook/python-gphoto2
 Source0:        %{pypi_source}
@@ -13,26 +12,27 @@ Source0:        %{pypi_source}
 BuildRequires:  gcc
 BuildRequires:  libgphoto2-devel
 BuildRequires:  pkgconfig
+BuildRequires:  python3-devel
+BuildRequires:  pyproject-rpm-macros
  
 %description
 python-gphoto2 is a comprehensive Python interface (or binding) to libgphoto2.
 It is built using SWIG to automatically generate the interface code. This 
-ives direct access to nearly all the libgphoto2 functions, but sometimes in
-a rather un-Pythonic manner.
+gives direct access to nearly all the libgphoto2 functions, but sometimes in
+a nonstandard manner.
  
 %package -n python3-%{pypi_name}
 Summary:        %{summary}
- 
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-%{?python_provide:%python_provide python3-%{pypi_name}}
  
 %description -n python3-%{pypi_name}
 python-gphoto2 is a comprehensive Python interface (or binding) to libgphoto2.
 It is built using SWIG to automatically generate the interface code. This
 gives direct access to nearly all the libgphoto2 functions, but sometimes in
-a rather un-Pythonic manner.
+a nonstandard manner.
  
+%generate_buildrequires
+%pyproject_buildrequires
+
 %prep
 %autosetup -n %{pypi_name}-%{version}
 # Remove shebang
@@ -41,19 +41,23 @@ sed -e '1d' -i examples/*.py
 chmod -x examples/*.py
  
 %build
-%py3_build
+%pyproject_wheel
+
 %install
-%py3_install
+%pyproject_install
+%pyproject_save_files %{pypi_name}
 # Data files are goining to the wrong location
 rm -rf %{buildroot}%{_datadir}/%{name}
  
-%files -n python3-%{pypi_name}
-%doc README.rst examples
+%files -n python3-%{pypi_name} -f %{pyproject_files}
 %license LICENSE.txt
-%{python3_sitearch}/*.egg-info
-%{python3_sitearch}/%{pypi_name}/
+%doc README.rst examples
  
 %changelog
+* Wed Jan 21 2026 koxt2 <koxt2@protonmail.com> - 2.6.3-1
+- Fix spelling error
+- Switch to pyproject macros
+
 * Mon Jan 05 2026 koxt2 <koxt2@protonmail.com> - 2.6.3-1
 - Update to 2.6.3
  
